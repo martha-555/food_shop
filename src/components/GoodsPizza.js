@@ -14,13 +14,10 @@ import Price from "./ui/Price/Price.tsx";
 
 export default function GoodsPizza() {
   const goodsList = useSelector(goodsName);
+  const a = 1;
   return (
     <div>
-      <Grid
-        container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
-      >
+      <Grid spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {goodsList["pizza"].map((item) => (
           <Grid xs={2} item sm={4} md={4} key={item.id}>
             <Card
