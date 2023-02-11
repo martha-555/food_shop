@@ -1,0 +1,18 @@
+/** @format */
+
+.cardImg {
+  max-width: 250px;
+}
+
+.cardContainer {
+  border: 1px solid whitesmoke;
+  margin: 10px;
+  .goodsCard {
+    padding: 10px;
+  }
+}
+.sort {
+  padding-top: 100px;
+  background-color: rgb(112, 117, 115);
+  border: 1px solid greenyellow;
+}

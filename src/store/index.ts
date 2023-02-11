@@ -15,7 +15,8 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+// import storage from "redux-persist/lib/storage";
+import storage from "redux-persist/es/storage";
 
 const persistConfig = {
   key: "root",
@@ -41,6 +42,7 @@ const store = configureStore({
       },
     }),
 });
-
 export const persistor = persistStore(store);
 export default store;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

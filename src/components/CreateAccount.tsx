@@ -5,7 +5,7 @@ import { NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getDatabase, ref, set } from "firebase/database";
 import { setUser } from "../store/userStore";
-import { updateProfile } from "firebase/auth";
+import { updateProfile, User } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -19,34 +19,29 @@ export default function CreateAccount() {
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
 
-  const signUp = (e) => {
+  const signUp = (e: any) => {
     e.preventDefault();
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        updateProfile(auth.currentUser, {
-          displayName: userName,
-        });
-        if (user) navigate("/login");
-        console.log(user);
-        // dispatch(
-        //   setUser({
-        //     user_name: user.displayName,
-        //     email: user.email,
-        //     id: user.uid,
-        //   })
-        // );
+      .then((userCredential) => {
+        console.log("userCredential", userCredential.user);
+        if (auth.currentUser) {
+          const user: User = auth.currentUser;
+          console.log("user", user);
+          updateProfile(user, {
+            displayName: userName,
+          })
+            .then((user) => {
+              console.log("Profile updated!", user);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       })
       .catch((error) => {
         console.log(error);
       });
-
-    // function writeUserData(userId, name, email, imageUrl) {
-    //   set(ref(database, "users/" + userId), {
-    //     username: userName,
-
-    //   });
-    // }
   };
 
   return (

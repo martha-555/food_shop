@@ -4,24 +4,32 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import { NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { setUser } from "../store/userStore";
 import React, { useState } from "react";
+import { useAppDispatch } from "../hooks/hooks";
+import GoogleAuth from "./GoogleAuth";
 
 export default function LogIn() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  function handleLogin(e) {
+
+  function handleLogin(e: any) {
     e.preventDefault();
     const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         user ? navigate("/my-account") : console.log("error blya");
+
         dispatch(
           setUser({
-            user_name: user.displayName,
+            userName: user.displayName,
             email: user.email,
             id: user.uid,
           })
@@ -66,6 +74,7 @@ export default function LogIn() {
           Зареєструватись
         </NavLink>
       </Button>
+      <GoogleAuth />
     </div>
   );
 }

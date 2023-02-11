@@ -1,22 +1,22 @@
 /** @format */
 import { basketChange } from "../store/basketStore";
 import { goodsName } from "../store/GoodsStore";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks/hooks";
+import type { GoodsObj } from "../types/goodsObj";
 
 export default function CheckoutBasket() {
-  const goodsCount = useSelector(basketChange);
-  let goods = useSelector(goodsName);
-  goods = Object.values(goods).flat();
-  let goodsArr = [];
+  const goodsCount = useAppSelector(basketChange);
+  let goods = useAppSelector(goodsName);
+  let goodsCopy = Object.values(goods).flat();
+  let goodsArr: GoodsObj = {};
   let allSum = 0;
-
-  goods.map((item) => {
-    goodsArr[item.id] ??= [];
+  goodsCopy.map((item) => {
     goodsArr[item.id] = item;
   });
+  console.log(goodsArr);
 
   allSum = Object.keys(goodsCount)
-    .map((item) => parseInt(goodsArr[item]["price"]) * goodsCount[item])
+    .map((item) => goodsArr[item]["price"] * goodsCount[item])
     .reduce((accum, item) => accum + item);
 
   return (
@@ -33,7 +33,7 @@ export default function CheckoutBasket() {
               />
               {goodsArr[item]["name"] + " x "}
               {goodsCount[item] + " = "}
-              {goodsCount[item] * parseInt(goodsArr[item]["price"])} грн
+              {goodsCount[item] * goodsArr[item]["price"]} грн
             </li>
           ))}
         </ul>

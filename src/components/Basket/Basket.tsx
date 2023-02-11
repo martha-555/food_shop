@@ -4,33 +4,32 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import { basketChange } from "../../store/basketStore";
 import { goodsName } from "../../store/GoodsStore";
-import { useSelector, useDispatch } from "react-redux";
-import { useAuth } from "../../useAuth";
+import { useAuth } from "../../hooks/useAuth";
 import Price from "../ui/Price/Price";
-import Text from "../ui/Text/Text.tsx";
-import classes from "./styles.module.scss";
+import Text from "../ui/Text";
 import { getDiscount } from "../../utils/discount";
 import BasketCard from "../ui/BasketCard/BasketCard";
+import { useAppSelector } from "../../hooks/hooks";
+import type { GoodsObj } from "../../types/goodsObj";
+import classes from "./styles.module.scss";
 
 export default function Basket() {
-  const basket = useSelector(basketChange);
-  const goods = useSelector(goodsName);
+  const basket = useAppSelector(basketChange);
+  const goods = useAppSelector(goodsName);
 
-  let goodsArr = [];
+  let goodsArr: GoodsObj = {};
   const isAuth = useAuth();
 
   for (let key of Object.values(goods)) {
     for (let value of key) {
       let id = value.id;
-      goodsArr[id] ??= [];
       goodsArr[id] = value;
     }
   }
   let allSum = 0;
-
   if (Object.keys(basket).length !== 0) {
     allSum = Object.keys(basket)
-      .map((item) => basket[item] * parseInt(goodsArr[item]["price"]))
+      .map((item) => basket[item] * goodsArr[item]["price"])
       .reduce((accum, item) => accum + item);
   }
 

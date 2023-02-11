@@ -7,7 +7,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import { useAuth } from "../useAuth";
+import { useAuth } from "../hooks/useAuth";
 import Text from "./ui/Text";
 
 export default function Header() {
@@ -22,7 +22,7 @@ export default function Header() {
         className="nav-list"
       >
         <Container>
-          <Navbar href="#">
+          <Navbar>
             {" "}
             <Text>Смажена русня </Text>
           </Navbar>

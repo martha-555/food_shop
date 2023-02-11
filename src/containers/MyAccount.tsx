@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import Button from "react-bootstrap/Button";
 import { UserInfo } from "firebase/auth";
 import { useSelector } from "react-redux";
-import IsUserName from "../components/IsUserName";
+// import IsUserName from "../components/IsUserName";
 import LogIn from "../components/LogIn";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
@@ -16,7 +16,6 @@ export default function MyAccount() {
   const user = useSelector(userInfo);
 
   function clickHandler() {
-    console.log(user);
     dispatch(removeUser());
   }
   return (

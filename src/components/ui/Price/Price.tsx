@@ -1,6 +1,5 @@
 /** @format */
 
-import React from "react";
 import Text from "../Text/Text";
 import classes from "./styles.module.scss";
 type Props = {

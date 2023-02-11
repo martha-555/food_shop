@@ -3,6 +3,7 @@
   "display": "Node 16",
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
+    "types": ["react/next", "react-dom/next"],
     "target": "ES2022",
     "lib": ["dom", "dom.iterable", "ES2022"],
     "allowJs": true,
@@ -21,4 +22,5 @@
     "typeRoots": ["src/@types"]
   },
   "include": ["src"]
+  // "include": ["src/**/*.ts", "declarations.d.ts"]
 }
