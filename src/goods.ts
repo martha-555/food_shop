@@ -1,8 +1,8 @@
 /** @format */
-import { GoodsLst } from "./types/common";
+import { GoodsList, GoodsSections } from "./types/common";
 
-export const goods: GoodsLst = {
-  pizza: [
+export const goods: GoodsList = {
+  [GoodsSections.Pizza]: [
     {
       name: "Піца Оригінальна",
       price: 180,
@@ -52,7 +52,7 @@ export const goods: GoodsLst = {
       id: "id6",
     },
   ],
-  burgers: [
+  [GoodsSections.Burgers]: [
     {
       name: "Бургер Вейдер",
       price: 210,
@@ -78,7 +78,7 @@ export const goods: GoodsLst = {
       id: "burg2",
     },
   ],
-  sushi: [
+  [GoodsSections.Sushi]: [
     {
       name: "Рол Мідорі",
       price: 180,

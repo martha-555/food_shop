@@ -3,8 +3,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { goods } from "../goods";
 import type { RootState } from "./index";
-import { PayloadAction } from "@reduxjs/toolkit";
-import { type } from "os";
 
 export enum SortType {
   ByPrice,
@@ -16,14 +14,30 @@ export enum SortDirection {
   DESC,
 }
 
+export enum Ingredients {
+  маслини,
+  шинка,
+  сир,
+  курка,
+  гриби,
+  помідори,
+}
+
 const initialState = {
   goods: goods,
   sortType: SortType.ByPrice,
   sortDirection: SortDirection.ASC,
+  ingredients: Ingredients,
 };
 
 type SetSortTypePayload = {
   payload: { type: SortType };
+};
+type SetSortDirectionPayload = {
+  payload: { direction: SortDirection };
+};
+type SetIngredients = {
+  payload: { ingredients: Ingredients };
 };
 
 export const GoodsStore = createSlice({
@@ -33,42 +47,22 @@ export const GoodsStore = createSlice({
     setSortType: (state, payload: SetSortTypePayload) => {
       return { ...state, sortType: payload.payload.type };
     },
-    smallerPrice: (state, unit) => {
-      state.goods[unit.payload].sort(function (a, b) {
-        return a.price - b.price;
-      });
+    setSortDirection: (state, payload: SetSortDirectionPayload) => {
+      return { ...state, sortDirection: payload.payload.direction };
     },
-    largerPrice: (state, unit) => {
-      state.goods[unit.payload].sort(function (a, b) {
-        return b.price - a.price;
-      });
-    },
-    smallerWeight: (state, unit) => {
-      state.goods[unit.payload].sort(function (a, b) {
-        return a.weight - b.weight;
-      });
-    },
-    largerWeight: (state, unit) => {
-      state.goods[unit.payload].sort(function (a, b) {
-        return b.weight - a.weight;
-      });
-    },
-    filterByComponents: (state, ingredients) => {
-      state.goods.pizza.map((item) => {
-        let a = item.components.match(/курка гриби/);
-        console.log(a);
-      });
+    filterByIngredients: (state, payload: SetIngredients) => {
+      return { ...state, ingredients: payload.payload.ingredients };
     },
   },
 });
 
-export const {
-  smallerPrice,
-  largerPrice,
-  smallerWeight,
-  largerWeight,
-  filterByComponents,
-  setSortType,
-} = GoodsStore.actions;
+export const { setSortType, setSortDirection, filterByIngredients } =
+  GoodsStore.actions;
 export const goodsName = (state: RootState) => state.goods.goods;
+export const selectGoodsSortType = (state: RootState) => state.goods.sortType;
+export const selectGoodsSortDirection = (state: RootState) =>
+  state.goods.sortDirection;
+export const selectGoodsSortIngredients = (state: RootState) =>
+  state.goods.ingredients;
+
 export default GoodsStore.reducer;
