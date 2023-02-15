@@ -2,6 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { goods } from "../goods";
+import { GoodsList } from "../types/common";
 import type { RootState } from "./index";
 
 export enum SortType {
@@ -23,11 +24,18 @@ export enum Ingredients {
   помідори,
 }
 
-const initialState = {
+type InitialStateType = {
+  goods: GoodsList;
+  sortType: SortType;
+  sortDirection: SortDirection;
+  ingredients: Ingredients[],
+}
+
+const initialState: InitialStateType = {
   goods: goods,
   sortType: SortType.ByPrice,
   sortDirection: SortDirection.ASC,
-  ingredients: Ingredients,
+  ingredients: [],
 };
 
 type SetSortTypePayload = {
@@ -37,7 +45,7 @@ type SetSortDirectionPayload = {
   payload: { direction: SortDirection };
 };
 type SetIngredients = {
-  payload: { ingredients: Ingredients };
+  payload: { ingredients: Ingredients[] };
 };
 
 export const GoodsStore = createSlice({
