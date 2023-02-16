@@ -15,7 +15,6 @@ const FilterIngredients = () => {
 
   const clickHandler = (e: any) => {
     const value = e.target.value;
-    console.log({ Ingredients });
 
     if (e.target.localName == "input") {
       componentsArr.add(value);
@@ -24,13 +23,10 @@ const FilterIngredients = () => {
       componentsArr.delete(value);
     }
 
-    const copy: Ingredients[] = Array.from(componentsArr);
+    console.log({ componentsArr });
+    const copy = [...componentsArr];
     console.log({ copy });
-    const arr = goods[GoodsSections.Pizza].filter((item) => {
-      return copy.every((value) => item.components.includes(value));
-    });
-
-    dispatch(filterByIngredients({ ingredients: copy }));
+    // dispatch(filterByIngredients({ ingredients: [...copy] }));
   };
 
   return (

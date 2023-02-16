@@ -26,11 +26,12 @@ export default function GoodsPizza() {
   });
 
   const sortedGoods = sortGoods({
-    items: goodsList[GoodsSections.Pizza],
+    items: filteredGoods,
     type: sortType,
     direction: sortDirection,
   });
-
+  // console.log({ filteredGoods });
+  // console.log({ ingredients });
   return (
     <div>
       <SortGoods />
@@ -38,7 +39,7 @@ export default function GoodsPizza() {
 
       <div className={classes.container}>
         {sortedGoods.map((item) => (
-          <GoodsCard item={filteredGoods} key={item.id} />
+          <GoodsCard item={item} key={item.id} />
         ))}
       </div>
     </div>

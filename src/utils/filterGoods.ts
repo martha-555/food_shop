@@ -12,7 +12,8 @@ const filterGoods = ({ items, ingredients }: Params) => {
   const filtered = items.filter((item) => {
     return ingredients.every((value) => item.components.includes(value));
   });
-  console.log({ filtered });
+
+  return filtered;
 };
 
 export default filterGoods;

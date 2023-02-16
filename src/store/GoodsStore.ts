@@ -59,7 +59,7 @@ export const GoodsStore = createSlice({
       return { ...state, sortDirection: payload.payload.direction };
     },
     filterByIngredients: (state, payload: SetIngredients) => {
-      console.log("pa", payload);
+      // console.log("pa", payload);
       return { ...state, ingredients: payload.payload.ingredients };
     },
   },
