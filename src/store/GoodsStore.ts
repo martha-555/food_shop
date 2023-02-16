@@ -16,20 +16,20 @@ export enum SortDirection {
 }
 
 export enum Ingredients {
-  маслини,
-  шинка,
-  сир,
-  курка,
-  гриби,
-  помідори,
+  olives = "маслини",
+  ham = "шинка",
+  cheese = "сир",
+  chicken = "курка",
+  mushrooms = "гриби",
+  tomatoes = "помідори",
 }
 
 type InitialStateType = {
   goods: GoodsList;
   sortType: SortType;
   sortDirection: SortDirection;
-  ingredients: Ingredients[],
-}
+  ingredients: Ingredients[];
+};
 
 const initialState: InitialStateType = {
   goods: goods,
@@ -59,6 +59,7 @@ export const GoodsStore = createSlice({
       return { ...state, sortDirection: payload.payload.direction };
     },
     filterByIngredients: (state, payload: SetIngredients) => {
+      console.log("pa", payload);
       return { ...state, ingredients: payload.payload.ingredients };
     },
   },
@@ -70,7 +71,7 @@ export const goodsName = (state: RootState) => state.goods.goods;
 export const selectGoodsSortType = (state: RootState) => state.goods.sortType;
 export const selectGoodsSortDirection = (state: RootState) =>
   state.goods.sortDirection;
-export const selectGoodsSortIngredients = (state: RootState) =>
+export const selectGoodsFilterIngredients = (state: RootState) =>
   state.goods.ingredients;
 
 export default GoodsStore.reducer;

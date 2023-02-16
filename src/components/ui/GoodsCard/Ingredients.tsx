@@ -5,16 +5,17 @@ import { useAppDispatch } from "../../../hooks/hooks";
 import { goodsName } from "../../../store/GoodsStore";
 import { useSelector } from "react-redux";
 import { GoodsSections } from "../../../types/common";
-import { findByDisplayValue } from "@testing-library/react";
+import { filterByIngredients } from "../../../store/GoodsStore";
+import { Ingredients } from "../../../store/GoodsStore";
 
-const Ingredients = () => {
+const FilterIngredients = () => {
   let goods = useSelector(goodsName);
   const dispatch = useAppDispatch();
-  let componentsArr = new Set();
-  console.log(goods[GoodsSections.Pizza]);
+  let componentsArr: Set<Ingredients> = new Set();
 
   const clickHandler = (e: any) => {
     const value = e.target.value;
+    console.log({ Ingredients });
 
     if (e.target.localName == "input") {
       componentsArr.add(value);
@@ -22,46 +23,27 @@ const Ingredients = () => {
     if (!e.target.checked) {
       componentsArr.delete(value);
     }
-    let copy = [...componentsArr];
-    console.log(copy);
+
+    const copy: Ingredients[] = Array.from(componentsArr);
+    console.log({ copy });
     const arr = goods[GoodsSections.Pizza].filter((item) => {
-      return copy.every((value: any) => item.components.includes(value));
+      return copy.every((value) => item.components.includes(value));
     });
-    console.log(arr);
+
+    dispatch(filterByIngredients({ ingredients: copy }));
   };
-  // const list = [
-  //   {
-  //     name: "оригінальна",
-  //     components: ["123", "гриби", "маслини"],
-  //   },
-  //   {
-  //     name: "пікантна",
-  //     components: ["123", "гриби"],
-  //   },
-  //   {
-  //     name: "гостра",
-  //     components: ["123"],
-  //   },
-  // ];
 
-  // const compon = ["гриби", "маслини"];
-
-  // const filtered = list.filter((item) => {
-  //   return compon.every((e) => item.components.includes(e));
-  // });
-
-  // console.log(filtered);
   return (
     <div onClick={clickHandler}>
-      <input type="checkbox" value="гриби" id="" />
+      <input type="checkbox" value={Ingredients.mushrooms} id="" />
       <label htmlFor="">
         <Text>гриби</Text>{" "}
       </label>
-      <input type="checkbox" value="маслини" id="" />
+      <input type="checkbox" value={Ingredients.olives} id="" />
       <label htmlFor="">
         <Text>маслини</Text>{" "}
       </label>
     </div>
   );
 };
-export default Ingredients;
+export default FilterIngredients;
