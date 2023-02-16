@@ -1,32 +1,26 @@
 /** @format */
 import Text from "../Text";
-// import { filterByComponents } from "../../../store/GoodsStore";
 import { useAppDispatch } from "../../../hooks/hooks";
-import { goodsName } from "../../../store/GoodsStore";
 import { useSelector } from "react-redux";
-import { GoodsSections } from "../../../types/common";
-import { filterByIngredients } from "../../../store/GoodsStore";
+import { filterByIngredients, selectGoodsFilterIngredients } from "../../../store/GoodsStore";
 import { Ingredients } from "../../../store/GoodsStore";
+import React from "react";
 
 const FilterIngredients = () => {
-  let goods = useSelector(goodsName);
+  const ingredients = useSelector(selectGoodsFilterIngredients);
   const dispatch = useAppDispatch();
-  let componentsArr: Set<Ingredients> = new Set();
 
-  const clickHandler = (e: any) => {
-    const value = e.target.value;
+  const clickHandler = (e: React.MouseEvent) => {
+    const target = e.target as HTMLInputElement;
+    const clickedIngredient = target.value as Ingredients;;
 
-    if (e.target.localName == "input") {
-      componentsArr.add(value);
+    const newIngredients = ingredients.filter(item => item !== clickedIngredient || target.checked);
+
+    if (target.checked && !newIngredients.includes(clickedIngredient)) {
+      newIngredients.push(clickedIngredient);
     }
-    if (!e.target.checked) {
-      componentsArr.delete(value);
-    }
 
-    console.log({ componentsArr });
-    const copy = [...componentsArr];
-    console.log({ copy });
-    // dispatch(filterByIngredients({ ingredients: [...copy] }));
+    dispatch(filterByIngredients({ ingredients: newIngredients }));
   };
 
   return (
