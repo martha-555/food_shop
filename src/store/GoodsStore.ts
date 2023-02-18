@@ -2,7 +2,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import { goods } from "../goods";
-import { GoodsList } from "../types/common";
+import { GoodsList, GoodsSections } from "../types/common";
 import type { RootState } from "./index";
 
 export enum SortType {
@@ -23,6 +23,12 @@ export enum Ingredients {
   mushrooms = "гриби",
   tomatoes = "помідори",
 }
+
+// const sorting: { [key in keyof typeof GoodsSections]: Ingredients[] } = {
+//   [GoodsSections.Burgers]: [Ingredients.cheese],
+//   [GoodsSections.Pizza]: [Ingredients.cheese],
+//   [GoodsSections.Sushi]: [Ingredients.cheese],
+// };
 
 type InitialStateType = {
   goods: GoodsList;

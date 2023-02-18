@@ -9,55 +9,57 @@ import {
 import { Ingredients } from "../../../store/GoodsStore";
 import React from "react";
 
+type Section<Filter> = {
+  filters: Filter;
+};
+
 const FilterIngredients = () => {
   const ingredients = useSelector(selectGoodsFilterIngredients);
   const dispatch = useAppDispatch();
+  // const [ingredients, setIngrediens] = useState<Ingredients[]>([]);
 
-  const clickHandler = (e: React.MouseEvent) => {
+  const handleChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
-    const clickedIngredient = target.value as Ingredients;
 
-    const newIngredients = ingredients.filter(
-      (item) => item !== clickedIngredient || target.checked
-    );
+    if (target.checked) {
+      dispatch(
+        filterByIngredients({
+          ingredients: [...ingredients, target.value as Ingredients],
+        })
+      );
+    } else {
+      const newIngredients = ingredients.filter((e) => e !== target.value);
+      dispatch(
+        filterByIngredients({
+          ingredients: newIngredients,
+        })
+      );
+    }
+  };
 
-    if (target.checked && !newIngredients.includes(clickedIngredient)) {
-      newIngredients.push(clickedIngredient);
+  const getItems = () => {
+    const result = [];
+
+    for (const value of Object.values(Ingredients)) {
+      result.push(
+        <div key={value}>
+          <input
+            onChange={handleChange}
+            type="checkbox"
+            checked={ingredients.includes(value)}
+            value={value}
+            className="check"
+          />
+          <label>
+            <Text>{value}</Text>
+          </label>
+        </div>
+      );
     }
 
-    dispatch(filterByIngredients({ ingredients: newIngredients }));
+    return result;
   };
 
-  window.onload = function () {
-    const input = document.getElementsByTagName("input");
-    Array.from(input).forEach((item) => {
-      item.onchange = () =>
-        sessionStorage.setItem(item.id, item.checked.toString());
-      item.checked = sessionStorage.getItem(item.id) === "true";
-    });
-  };
-
-  return (
-    <div onClick={clickHandler}>
-      <input
-        type="checkbox"
-        value={Ingredients.mushrooms}
-        className="check"
-        id="1"
-      />
-      <label htmlFor="">
-        <Text>гриби</Text>{" "}
-      </label>
-      <input
-        type="checkbox"
-        value={Ingredients.olives}
-        className="check"
-        id="2"
-      />
-      <label htmlFor="">
-        <Text>маслини</Text>{" "}
-      </label>
-    </div>
-  );
+  return <div>{getItems()}</div>;
 };
 export default FilterIngredients;
