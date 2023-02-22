@@ -15,7 +15,7 @@ export enum SortDirection {
   DESC,
 }
 
-export enum Ingredients {
+export enum PizzaIngredients {
   olives = "маслини",
   ham = "шинка",
   cheese = "сир",
@@ -24,24 +24,25 @@ export enum Ingredients {
   tomatoes = "помідори",
 }
 
-// const sorting: { [key in keyof typeof GoodsSections]: Ingredients[] } = {
-//   [GoodsSections.Burgers]: [Ingredients.cheese],
-//   [GoodsSections.Pizza]: [Ingredients.cheese],
-//   [GoodsSections.Sushi]: [Ingredients.cheese],
-// };
+export enum BurgerIngredients {
+  chicken_cotlet = "куряча котлета",
+  shrimp = "креветки",
+}
 
 type InitialStateType = {
   goods: GoodsList;
   sortType: SortType;
   sortDirection: SortDirection;
-  ingredients: Ingredients[];
+  pizzaIngredients: PizzaIngredients[];
+  burgerIngredients: BurgerIngredients[];
 };
 
 const initialState: InitialStateType = {
   goods: goods,
   sortType: SortType.ByPrice,
   sortDirection: SortDirection.ASC,
-  ingredients: [],
+  pizzaIngredients: [],
+  burgerIngredients: [],
 };
 
 type SetSortTypePayload = {
@@ -51,7 +52,10 @@ type SetSortDirectionPayload = {
   payload: { direction: SortDirection };
 };
 type SetIngredients = {
-  payload: { ingredients: Ingredients[] };
+  payload: {
+    pizzaIng: PizzaIngredients[];
+    burgerIng: BurgerIngredients[];
+  };
 };
 
 export const GoodsStore = createSlice({
@@ -65,8 +69,12 @@ export const GoodsStore = createSlice({
       return { ...state, sortDirection: payload.payload.direction };
     },
     filterByIngredients: (state, payload: SetIngredients) => {
-      // console.log("pa", payload);
-      return { ...state, ingredients: payload.payload.ingredients };
+      console.log({ payload });
+      return {
+        ...state,
+        pizzaIngredients: payload.payload.pizzaIng,
+        burgerIngredients: payload.payload.burgerIng,
+      };
     },
   },
 });
@@ -77,7 +85,8 @@ export const goodsName = (state: RootState) => state.goods.goods;
 export const selectGoodsSortType = (state: RootState) => state.goods.sortType;
 export const selectGoodsSortDirection = (state: RootState) =>
   state.goods.sortDirection;
-export const selectGoodsFilterIngredients = (state: RootState) =>
-  state.goods.ingredients;
-
+export const selectGoodsPizzaIngredients = (state: RootState) =>
+  state.goods.pizzaIngredients;
+export const selectGoodsBurgerIngredients = (state: RootState) =>
+  state.goods.burgerIngredients;
 export default GoodsStore.reducer;

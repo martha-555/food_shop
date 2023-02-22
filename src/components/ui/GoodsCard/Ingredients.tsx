@@ -4,19 +4,21 @@ import { useAppDispatch } from "../../../hooks/hooks";
 import { useSelector } from "react-redux";
 import {
   filterByIngredients,
-  selectGoodsFilterIngredients,
+  selectGoodsPizzaIngredients,
+  selectGoodsBurgerIngredients,
 } from "../../../store/GoodsStore";
-import { Ingredients } from "../../../store/GoodsStore";
+import { PizzaIngredients } from "../../../store/GoodsStore";
+import { BurgerIngredients } from "../../../store/GoodsStore";
 import React from "react";
+import { goods } from "../../../goods";
 
-type Section<Filter> = {
-  filters: Filter;
-};
-
-const FilterIngredients = () => {
-  const ingredients = useSelector(selectGoodsFilterIngredients);
+const FilterIngredients = (
+  section: PizzaIngredients[],
+  good: PizzaIngredients[]
+) => {
+  const pizzaIngredients = useSelector(selectGoodsPizzaIngredients);
+  const burgerIngredients = useSelector(selectGoodsBurgerIngredients);
   const dispatch = useAppDispatch();
-  // const [ingredients, setIngrediens] = useState<Ingredients[]>([]);
 
   const handleChange = (e: React.ChangeEvent) => {
     const target = e.target as HTMLInputElement;
@@ -24,14 +26,16 @@ const FilterIngredients = () => {
     if (target.checked) {
       dispatch(
         filterByIngredients({
-          ingredients: [...ingredients, target.value as Ingredients],
+          pizzaIng: [...pizzaIngredients, target.value as PizzaIngredients],
+          burgerIng: [...burgerIngredients],
         })
       );
     } else {
-      const newIngredients = ingredients.filter((e) => e !== target.value);
+      const newIngredients = pizzaIngredients.filter((e) => e !== target.value);
       dispatch(
         filterByIngredients({
-          ingredients: newIngredients,
+          pizzaIng: newIngredients,
+          burgerIng: [...burgerIngredients],
         })
       );
     }
@@ -40,13 +44,13 @@ const FilterIngredients = () => {
   const getItems = () => {
     const result = [];
 
-    for (const value of Object.values(Ingredients)) {
+    for (const value of Object.values(section)) {
       result.push(
         <div key={value}>
           <input
             onChange={handleChange}
             type="checkbox"
-            checked={ingredients.includes(value)}
+            checked={good.includes(value)}
             value={value}
             className="check"
           />
