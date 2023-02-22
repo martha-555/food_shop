@@ -1,5 +1,5 @@
 /** @format */
-import { goodsName, SortType } from "../../store/GoodsStore";
+import { goodsName, PizzaIngredients, selectGoodsPizzaIngredients, SortType } from "../../store/GoodsStore";
 import { useSelector } from "react-redux";
 import GoodsCard from "../ui/GoodsCard/GoodsCard";
 import classes from "./styles.module.scss";
@@ -10,7 +10,6 @@ import sortGoods from "../../utils/sortGoods";
 import {
   selectGoodsSortDirection,
   selectGoodsSortType,
-  selectGoodsFilterIngredients,
 } from "../../store/GoodsStore";
 import filterGoods from "../../utils/filterGoods";
 
@@ -18,7 +17,7 @@ export default function GoodsPizza() {
   const goodsList = useSelector(goodsName);
   const sortType = useSelector(selectGoodsSortType);
   const sortDirection = useSelector(selectGoodsSortDirection);
-  const ingredients = useSelector(selectGoodsFilterIngredients);
+  const ingredients = useSelector(selectGoodsPizzaIngredients);
 
   const filteredGoods = filterGoods({
     items: goodsList[GoodsSections.Pizza],
@@ -35,7 +34,7 @@ export default function GoodsPizza() {
   return (
     <div>
       <SortGoods />
-      <FilterIngredients />
+      <FilterIngredients allFilterValues={Object.values(PizzaIngredients)} filter={{key: 'pizzaIngredients', value: ingredients}} />
 
       <div className={classes.container}>
         {sortedGoods.map((item) => (

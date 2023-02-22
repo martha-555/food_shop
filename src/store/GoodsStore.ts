@@ -29,6 +29,8 @@ export enum BurgerIngredients {
   shrimp = "креветки",
 }
 
+export type Ingredients = PizzaIngredients | BurgerIngredients;
+
 type InitialStateType = {
   goods: GoodsList;
   sortType: SortType;
@@ -51,11 +53,19 @@ type SetSortTypePayload = {
 type SetSortDirectionPayload = {
   payload: { direction: SortDirection };
 };
+
+export type PizzaIngredientsFilter = {
+  key: 'pizzaIngredients',
+  value: PizzaIngredients[];
+}
+
+export type BurgerIngredientsFilter = {
+  key: 'burgerIngredients',
+  value: BurgerIngredients[];
+}
+
 type SetIngredients = {
-  payload: {
-    pizzaIng: PizzaIngredients[];
-    burgerIng: BurgerIngredients[];
-  };
+  payload: PizzaIngredientsFilter | BurgerIngredientsFilter;
 };
 
 export const GoodsStore = createSlice({
@@ -69,12 +79,8 @@ export const GoodsStore = createSlice({
       return { ...state, sortDirection: payload.payload.direction };
     },
     filterByIngredients: (state, payload: SetIngredients) => {
-      console.log({ payload });
-      return {
-        ...state,
-        pizzaIngredients: payload.payload.pizzaIng,
-        burgerIngredients: payload.payload.burgerIng,
-      };
+      const {key, value} = payload.payload;
+      return { ...state, [key]: value };
     },
   },
 });
